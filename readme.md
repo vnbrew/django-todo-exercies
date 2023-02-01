@@ -3,6 +3,15 @@
 python3 -m venv venv
 source venv/bin/activate
 pip install -r packages.txt
+cd backend
+python manage.py makemigrations
+python manage.py migrate
+```
+
+# Run server
+```sh
+cd backend
+python manage.py runserver
 ```
 
 # API
