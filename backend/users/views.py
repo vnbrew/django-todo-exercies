@@ -52,6 +52,11 @@ class UserLoginAPIView(APIView):
             'error_code': 400
         }, status=status.HTTP_400_BAD_REQUEST)
 
+class UserList(generics.ListAPIView):
+    permission_classes = (IsAuthenticated,)
+    queryset = User.objects.all()
+    serializer_class = UserSerializers
+
 class UserDetail(generics.RetrieveAPIView):
     permission_classes = (IsAuthenticated,)
     queryset = User.objects.all()
