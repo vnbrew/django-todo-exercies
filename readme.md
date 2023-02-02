@@ -6,6 +6,7 @@ pip install -r packages.txt
 cd backend
 python manage.py makemigrations
 python manage.py migrate
+python manage.py createsuperuser
 ```
 
 # Run server
@@ -21,7 +22,6 @@ http://localhost:8000/users/register/
 Method: POST
 Body:(json format)
 {
-    "username": "input username",
     "email": "input email",
     "password": "input password",
 }
@@ -32,7 +32,7 @@ http://localhost:8000/users/login/
 Method: POST
 Body:(json format)
 {
-    "username": "input username",
+    "email": "input email",
     "password": "input password",
 }
 ```

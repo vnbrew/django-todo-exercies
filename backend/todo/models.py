@@ -8,3 +8,4 @@ class Todo(models.Model):
 
     class Meta:
         ordering = ['created']
+        db_table = "todos"

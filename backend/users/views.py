@@ -8,7 +8,7 @@ from app.settings import SIMPLE_JWT
 from .serializers import UserSerializers, UserLoginSerializer
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework import generics
-from django.contrib.auth.models import User
+from .models import User
 
 class UserRegisterAPIView(APIView):
     permission_classes = (AllowAny,)
@@ -16,6 +16,7 @@ class UserRegisterAPIView(APIView):
     def post(self, request, format='json'):
         serializer = UserSerializers(data=request.data)
         if serializer.is_valid():
+            serializer.validated_data['password'] = make_password(serializer.validated_data['password'])
             user = serializer.save()
             if user:
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -26,12 +27,14 @@ class UserLoginAPIView(APIView):
 
     def post(self, request, format='json'):
         serializer = UserLoginSerializer(data=request.data)
+        
         if serializer.is_valid():
             user = authenticate(
                 request,
-                username=serializer.validated_data['username'],
+                email=serializer.validated_data['email'],
                 password=serializer.validated_data['password']
             )
+            print(user)
             if user:
                 refresh = TokenObtainPairSerializer.get_token(user)
                 data = {
@@ -43,7 +46,7 @@ class UserLoginAPIView(APIView):
                 return Response(data, status=status.HTTP_200_OK)
             
             return Response({
-                'error_message': 'Username or password is incorrect!',
+                'error_message': 'Email or password is incorrect!',
                 'error_code': 400
             }, status=status.HTTP_400_BAD_REQUEST)
 
@@ -52,13 +55,13 @@ class UserLoginAPIView(APIView):
             'error_code': 400
         }, status=status.HTTP_400_BAD_REQUEST)
 
-class UserList(generics.ListAPIView):
-    permission_classes = (IsAuthenticated,)
-    queryset = User.objects.all()
-    serializer_class = UserSerializers
+# class UserList(generics.ListAPIView):
+#     permission_classes = (IsAuthenticated,)
+#     queryset = User.objects.all()
+#     serializer_class = UserSerializers
 
-class UserDetail(generics.RetrieveAPIView):
-    permission_classes = (IsAuthenticated,)
-    queryset = User.objects.all()
-    serializer_class = UserSerializers
+# class UserDetail(generics.RetrieveAPIView):
+#     permission_classes = (IsAuthenticated,)
+#     queryset = User.objects.all()
+#     serializer_class = UserSerializers
 
