@@ -1,3 +1,6 @@
+# Info
+Nguyen Duc Quy
+
 # Install
 ```sh
 python3 -m venv venv
