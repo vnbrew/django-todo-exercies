@@ -18,7 +18,7 @@ python manage.py runserver
 # API
 ## Register
 ```sh
-http://localhost:8000/users/register/
+http://localhost:8000/api/users/register/
 Method: POST
 Body:(json format)
 {
@@ -28,11 +28,50 @@ Body:(json format)
 ```
 ## Login
 ```sh
-http://localhost:8000/users/login/
+http://localhost:8000/api/users/login/
 Method: POST
 Body:(json format)
 {
     "email": "input email",
     "password": "input password",
 }
+```
+## Add task
+```sh
+http://localhost:8000/api/todo/
+Method: POST
+Header: Authorization: Bearer {token}
+Body:(json format)
+{
+    "title": "input title",
+    "description": "input description",
+}
+```
+## Get all task
+```sh
+http://localhost:8000/api/todo/
+Method: GET
+```
+## Get task with id
+```sh
+http://localhost:8000/api/todo/{id}/
+Method: GET
+Header: Authorization: Bearer {token}
+```
+## Update task with id
+```sh
+http://localhost:8000/api/todo/{id}/
+Method: PUT
+Header: Authorization: Bearer {token}
+Body:(json format)
+{
+    "title": "input title",
+    "description": "input description",
+}
+```
+## Delete task with id
+```sh
+http://localhost:8000/api/todo/{id}/
+Method: DELETE
+Header: Authorization: Bearer {token}
 ```
